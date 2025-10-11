@@ -1,6 +1,5 @@
 export function maskWord(word) {
   const chars = word.split("");
-  // 至少挖 1 個，約 1/3 字元被挖空
   const maskCount = Math.max(1, Math.floor(word.length / 3));
   const idxs = new Set();
   while (idxs.size < maskCount) {

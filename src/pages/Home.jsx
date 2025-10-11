@@ -1,30 +1,26 @@
 import { useQuiz } from "../context/QuizContext";
 import LevelSelect from "../components/LevelSelect";
 import { fetchSheet } from "../utils/fetchSheet";
-
-function sample10(arr) {
-  // 隨機取 10 題（不足則取全部）
+function sampleN(arr, n) {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  return copy.slice(0, Math.min(10, copy.length));
+  return copy.slice(0, Math.min(n, copy.length));
 }
-
 export default function Home({ onStart }) {
   const { dispatch } = useQuiz();
-
   const handleSelect = async (level) => {
     dispatch({ type: "SET_LEVEL", payload: level });
     const all = await fetchSheet(level);
     dispatch({ type: "SET_QUESTIONS", payload: all });
-    const round = sample10(all);
+    const round = sampleN(all, 10);
     dispatch({ type: "SET_ROUNDSET", payload: round });
     dispatch({ type: "RESET_FINISH" });
+    dispatch({ type: "SET_MODE", payload: "normal" });
     onStart();
   };
-
   return (
     <div className="flex flex-col items-center justify-center gap-6">
       <h1 className="text-3xl font-bold mb-2">📘 單字練習</h1>
