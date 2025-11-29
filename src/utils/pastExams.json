@@ -1,0 +1,322 @@
+[
+  {
+    "id": "114_1",
+    "question": "If you put a ______ under a leaking faucet, you will be surprised at the amount of water collected in 24 hours.",
+    "options": ["border", "timer", "container", "marker"],
+    "answer": "container",
+    "translation": "如果你在漏水的水龍頭下放一個容器，你會驚訝於 24 小時內收集到的水量。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_2",
+    "question": "The local farmers’ market is popular as it offers a variety of fresh seasonal ______ to people in the community.",
+    "options": ["produce", "fashion", "brand", "trend"],
+    "answer": "produce",
+    "translation": "當地的農夫市集很受歡迎，因為它為社區居民提供各種新鮮的當季農產品。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_3",
+    "question": "As the years have passed by, many of my childhood memories are already ______; I can no longer recall clearly what happened back then.",
+    "options": ["blurring", "trimming", "draining", "glaring"],
+    "answer": "blurring",
+    "translation": "隨著歲月流逝，許多童年記憶已經模糊了；我再也無法清楚回想起當時發生的事。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_4",
+    "question": "Racist remarks are by nature ______ and hurtful, and should be avoided on all occasions.",
+    "options": ["excessive", "furious", "offensive", "stubborn"],
+    "answer": "offensive",
+    "translation": "種族主義言論本質上是冒犯性和傷人的，在任何場合都應避免。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_5",
+    "question": "Not satisfied with the first ______ of her essay, Mary revised it several times before turning it in to the teacher.",
+    "options": ["text", "brush", "draft", "plot"],
+    "answer": "draft",
+    "translation": "Mary 對她文章的初稿不滿意，在交給老師之前修改了好幾次。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_6",
+    "question": "Left ______ for years, the deserted house was filled with a thick coating of dust and a smell of old damp wood.",
+    "options": ["casual", "fragile", "remote", "vacant"],
+    "answer": "vacant",
+    "translation": "這棟廢棄的房子空置多年，布滿了厚厚的灰塵，還有一股陳舊潮濕的木頭味。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_7",
+    "question": "The high school student showed ______ courage when she helped the old man escape from the fire.",
+    "options": ["gigantic", "exclusive", "multiple", "enormous"],
+    "answer": "enormous",
+    "translation": "這位高中生在幫助老人逃離火場時展現了巨大的勇氣。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_8",
+    "question": "Publicly financed projects are often ______ or delayed during tough economic times due to a lack of resources.",
+    "options": ["halted", "hatched", "possessed", "reinforced"],
+    "answer": "halted",
+    "translation": "在經濟困難時期，由於資源缺乏，公共資助的項目經常被暫停或延遲。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_9",
+    "question": "Despite his busy schedule, the President ______ the school’s graduation ceremony with his presence and a heartwarming speech.",
+    "options": ["praised", "graced", "addressed", "credited"],
+    "answer": "graced",
+    "translation": "儘管行程繁忙，總統還是光臨了學校的畢業典禮，並發表了感人的演講。",
+    "source": "114學測"
+  },
+  {
+    "id": "114_10",
+    "question": "The manager of the company was sued for ______ abusing his colleagues, calling them “hopeless losers.”",
+    "options": ["verbally", "dominantly", "legitimately", "relevantly"],
+    "answer": "verbally",
+    "translation": "公司經理因言語辱罵同事，稱他們為「無可救藥的失敗者」而被起訴。",
+    "source": "114學測"
+  },
+  {
+    "id": "113_1",
+    "question": "People who desire a ______ figure should exercise regularly and maintain healthy eating habits.",
+    "options": ["spicy", "slender", "slight", "slippery"],
+    "answer": "slender",
+    "translation": "想要擁有苗條身材的人應該規律運動並保持健康的飲食習慣。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_2",
+    "question": "Watching the sun ______ from a sea of clouds is a must-do activity for all visitors to Ali Mountain.",
+    "options": ["emerging", "flashing", "rushing", "floating"],
+    "answer": "emerging",
+    "translation": "觀賞太陽從雲海中浮現是所有阿里山遊客必做的活動。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_3",
+    "question": "Do you know what time the next bus is ______? I’ve been waiting here for more than 30 minutes.",
+    "options": ["apt", "due", "bound", "docked"],
+    "answer": "due",
+    "translation": "你知道下一班公車預計什麼時候到嗎？我已經在這裡等了30多分鐘了。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_4",
+    "question": "The roasting heat and high ______ made me feel hot and sticky, no matter what I did to cool off.",
+    "options": ["density", "humidity", "circulation", "atmosphere"],
+    "answer": "humidity",
+    "translation": "炙熱的高溫和高濕度讓我感到悶熱黏膩，無論做什麼都無法消暑。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_5",
+    "question": "Artwork created by truly great artists such as Picasso and Monet will no doubt ______ the test of time.",
+    "options": ["stay", "take", "serve", "stand"],
+    "answer": "stand",
+    "translation": "像畢卡索和莫內這樣真正偉大的藝術家所創作的藝術品，無疑將經得起時間的考驗。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_6",
+    "question": "In some countries, military service is ______ for men only; women do not have to serve in the military.",
+    "options": ["forceful", "realistic", "compulsory", "distinctive"],
+    "answer": "compulsory",
+    "translation": "在某些國家，兵役只對男性是義務性的；女性不需要服兵役。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_7",
+    "question": "The team complained that its leader always took the ______ for all the hard work done by the team members.",
+    "options": ["advantage", "revenge", "remedy", "credit"],
+    "answer": "credit",
+    "translation": "團隊抱怨他們的領導者總是將團隊成員辛勤工作的功勞據為己有。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_8",
+    "question": "Located at the center of the city, the business hotel ______ not only good service but also convenient public transport.",
+    "options": ["proposes", "contains", "promises", "confirms"],
+    "answer": "promises",
+    "translation": "這家商務旅館位於市中心，不僅保證提供良好的服務，還有便利的公共交通。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_9",
+    "question": "As blood supplies have fallen to a critically low level, many hospitals are making an ______ for the public to donate blood.",
+    "options": ["appeal", "approach", "operation", "observation"],
+    "answer": "appeal",
+    "translation": "由於血液庫存已降至極低水平，許多醫院正呼籲大眾捐血。",
+    "source": "113學測"
+  },
+  {
+    "id": "113_10",
+    "question": "David felt disappointed when he found out that he could not choose his study partners, but would be ______ placed in a study group.",
+    "options": ["eligibly", "randomly", "apparently", "consequently"],
+    "answer": "randomly",
+    "translation": "當 David 發現他不能選擇學習夥伴，而是會被隨機分配到讀書小組時，感到很失望。",
+    "source": "113學測"
+  },
+  {
+    "id": "112_1",
+    "question": "The bus driver often complains about chewing gum found under passenger seats because it is ______ and very hard to remove.",
+    "options": ["sticky", "greasy", "clumsy", "mighty"],
+    "answer": "sticky",
+    "translation": "公車司機經常抱怨在乘客座位下發現的口香糖，因為它很黏且非常難以清除。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_2",
+    "question": "Jesse is a talented model. He can easily adopt an elegant ______ for a camera shoot.",
+    "options": ["clap", "toss", "pose", "snap"],
+    "answer": "pose",
+    "translation": "Jesse 是個有天賦的模特兒。他可以輕鬆地擺出優雅的姿勢供拍照。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_3",
+    "question": "In order to draw her family tree, Mary tried to trace her ______ back to their arrival in North America.",
+    "options": ["siblings", "commuters", "ancestors", "instructors"],
+    "answer": "ancestors",
+    "translation": "為了畫出家譜，Mary 試圖追溯她的祖先直到他們抵達北美的時候。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_4",
+    "question": "Upon the super typhoon warning, Nancy rushed to the supermarket—only to find the shelves almost ______ and the stock nearly gone.",
+    "options": ["blank", "bare", "hollow", "queer"],
+    "answer": "bare",
+    "translation": "一收到超級颱風警報，Nancy 就衝去超市——結果發現貨架幾乎空了，存貨也快沒了。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_5",
+    "question": "Even though Jack said “Sorry!” to me in person, I did not feel any ______ in his apology.",
+    "options": ["liability", "generosity", "integrity", "sincerity"],
+    "answer": "sincerity",
+    "translation": "雖然 Jack 當面跟我說「對不起」，但我感覺不到他道歉中有任何誠意。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_6",
+    "question": "My grandfather has astonishing powers of ______. He can still vividly describe his first day at school as a child.",
+    "options": ["resolve", "fraction", "privilege", "recall"],
+    "answer": "recall",
+    "translation": "我祖父有驚人的記憶力。他至今仍能生動地描述他小時候上學的第一天。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_7",
+    "question": "Recent research has found lots of evidence to ______ the drug company’s claims about its “miracle” tablets for curing cancer.",
+    "options": ["provoke", "counter", "expose", "convert"],
+    "answer": "counter",
+    "translation": "最近的研究發現了大量證據來反駁該製藥公司關於其治療癌症的「奇蹟」藥片的說法。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_8",
+    "question": "Corrupt officials and misguided policies have ______ the country’s economy and burdened its people with enormous foreign debts.",
+    "options": ["crippled", "accelerated", "rendered", "ventured"],
+    "answer": "crippled",
+    "translation": "腐敗的官員和錯誤的政策重創了該國的經濟，並使其人民背負了巨額外債。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_9",
+    "question": "As a record number of fans showed up for the baseball final, the highways around the stadium were ______ with traffic all day.",
+    "options": ["choked", "disturbed", "enclosed", "injected"],
+    "answer": "choked",
+    "translation": "由於創紀錄的球迷出現在棒球決賽現場，體育場周圍的高速公路整天都塞滿了車。",
+    "source": "112學測"
+  },
+  {
+    "id": "112_10",
+    "question": "Studies show that the unbiased media are in fact often deeply influenced by political ideology.",
+    "options": ["undoubtedly", "roughly", "understandably", "supposedly"],
+    "answer": "supposedly",
+    "translation": "研究顯示，那些被認為是公正的媒體，實際上經常深受政治意識形態的影響。",
+    "source": "112學測"
+  },
+  {
+    "id": "111_1",
+    "question": "When Jeffery doesn’t feel like cooking, he often orders pizza online and has it ______ to his house.",
+    "options": ["advanced", "delivered", "offered", "stretched"],
+    "answer": "delivered",
+    "translation": "當 Jeffery 不想做飯時，他經常上網訂購披薩並讓人送到家裡。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_2",
+    "question": "Jane is the best ______ I have ever had. I cannot imagine running my office without her help.",
+    "options": ["assistant", "influence", "contribution", "politician"],
+    "answer": "assistant",
+    "translation": "Jane 是我遇過最好的助理。我無法想像沒有她的幫助要如何經營我的辦公室。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_3",
+    "question": "The temple celebrated Mazu Festival by hosting ten days of lion dances, Taiwanese operas, and traditional hand ______ shows.",
+    "options": ["chat", "quiz", "puppet", "variety"],
+    "answer": "puppet",
+    "translation": "這座寺廟通過舉辦十天的舞獅、歌仔戲和傳統布袋戲表演來慶祝媽祖誕辰。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_4",
+    "question": "The new vaccine was banned by the Food and Drug Administration due to its ______ fatal side effects.",
+    "options": ["potentially", "delicately", "ambiguously", "optionally"],
+    "answer": "potentially",
+    "translation": "由於其潛在的致命副作用，這種新疫苗被食品藥物管理局禁止。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_5",
+    "question": "______ the photos with dates and keywords help you sort them easily in your file.",
+    "options": ["Tagging", "Flocking", "Rolling", "Snapping"],
+    "answer": "Tagging",
+    "translation": "用日期和關鍵字標記照片可以幫助你在檔案中輕鬆分類它們。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_6",
+    "question": "An ______ person is usually pleasant and easy to get along with, but don’t expect that he or she will always say “yes” to everything.",
+    "options": ["enormous", "intimate", "agreeable", "ultimate"],
+    "answer": "agreeable",
+    "translation": "一個隨和的人通常令人愉快且容易相處，但別指望他或她會對所有事情都說「是」。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_7",
+    "question": "Hidden deep in a small alley among various tiny shops, the entrance of the Michelin star restaurant is barely ______ to passersby.",
+    "options": ["identical", "visible", "available", "remarkable"],
+    "answer": "visible",
+    "translation": "這家米其林星級餐廳的入口深藏在各式小店鋪之間的小巷弄裡，路人幾乎看不見。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_8",
+    "question": "The original budget for my round-island trip was NT$5,000, but the ______ cost is likely to be 50 percent higher.",
+    "options": ["moderate", "absolute", "promising", "eventual"],
+    "answer": "eventual",
+    "translation": "我環島旅行的原始預算是5000新台幣，但最終花費可能會高出50%。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_9",
+    "question": "After watching a TV program on natural history, Adam decided to go on a ______ for dinosaur fossils in South Dakota.",
+    "options": ["trial", "route", "strike", "quest"],
+    "answer": "quest",
+    "translation": "在看了一個關於自然歷史的電視節目後，Adam 決定去南達科他州尋找恐龍化石。",
+    "source": "111學測"
+  },
+  {
+    "id": "111_10",
+    "question": "With pink cherry blossoms blooming everywhere, the valley ______ like a young bride under the bright spring sunshine.",
+    "options": ["bounces", "blushes", "polishes", "transfers"],
+    "answer": "blushes",
+    "translation": "隨著粉紅色的櫻花處處盛開，山谷在明媚的春光下像年輕的新娘一樣臉紅。",
+    "source": "111學測"
+  }
+]
