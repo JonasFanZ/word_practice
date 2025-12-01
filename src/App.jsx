@@ -7,6 +7,7 @@ import MCQQuiz from "./pages/MCQQuiz";
 import Result from "./pages/Result";
 import { fetchSheet, fetchMCQ } from "./utils/fetchSheet";
 import { generatePersonalizedQuiz } from "./utils/genAI";
+import ApiKeyModal from "./components/ApiKeyModal"; // Import Modal
 
 function sampleN(arr, n) {
   const copy = [...arr];
@@ -21,6 +22,7 @@ function AppContent() {
   const { state, dispatch } = useQuiz();
   const [route, setRoute] = useState("home");
   const [isAiLoading, setIsAiLoading] = useState(false);
+  const [showKeyModal, setShowKeyModal] = useState(false); // 控制設定視窗
 
   const handleSelectMode = (mode) => {
     if (mode === 'spelling') {
@@ -42,17 +44,24 @@ function AppContent() {
   };
 
   const handleSourceSelect = async (source) => {
+    // 如果選 AI 但沒有 Key，跳出設定視窗
+    if (source === 'ai' && !state.apiKey) {
+        setShowKeyModal(true);
+        return;
+    }
+
     dispatch({ type: "SET_MCQ_SOURCE", payload: source });
     
     let questions = [];
     
     if (source === 'ai') {
       setIsAiLoading(true);
-      questions = await generatePersonalizedQuiz([]); 
+      // 傳入 state.apiKey
+      questions = await generatePersonalizedQuiz([], state.apiKey); 
       setIsAiLoading(false);
       
       if (questions.length === 0) {
-        alert("AI 生成失敗 (可能未設定 API Key)，將載入歷屆試題替代。");
+        alert("AI 生成失敗 (可能 API Key 無效或配額不足)，將載入歷屆試題替代。");
         questions = await fetchMCQ('past');
       }
     } else {
@@ -60,7 +69,6 @@ function AppContent() {
     }
 
     dispatch({ type: "SET_QUESTIONS", payload: questions });
-    // 確保只取 10 題
     const round = questions.length > 10 ? sampleN(questions, 10) : questions;
     
     dispatch({ type: "SET_ROUNDSET", payload: round });
@@ -79,14 +87,12 @@ function AppContent() {
     setRoute("quiz");
   };
 
-  // 5. 實現分層返回邏輯
   const handleHome = () => {
-    dispatch({ type: "RESET_FINISH" }); // 簡單重置結束狀態
-    
+    dispatch({ type: "RESET_FINISH" }); 
     if (state.gameMode === 'mcq') {
-        setRoute("source-select"); // 回字彙題選單
+        setRoute("source-select"); 
     } else if (state.gameMode === 'spelling') {
-        setRoute("level-select"); // 回拼字等級選單
+        setRoute("level-select"); 
     } else {
         setRoute("home");
     }
@@ -94,6 +100,10 @@ function AppContent() {
 
   return (
     <div className="flex items-center justify-center min-h-screen py-10">
+      
+      {/* 讓 AppContent 也能控制 Key Modal (給 Source Select 頁面用) */}
+      <ApiKeyModal open={showKeyModal} onClose={() => setShowKeyModal(false)} />
+
       {route === "home" && (
         <Home onSelectMode={handleSelectMode} />
       )}
@@ -131,7 +141,7 @@ function AppContent() {
              <button 
                onClick={() => handleSourceSelect('ai')}
                disabled={isAiLoading}
-               className="p-6 bg-white rounded-2xl shadow-sm border border-gray-200 hover:border-purple-400 hover:shadow-md transition-all text-left flex items-center gap-4 disabled:opacity-50"
+               className="p-6 bg-white rounded-2xl shadow-sm border border-gray-200 hover:border-purple-400 hover:shadow-md transition-all text-left flex items-center gap-4 disabled:opacity-50 group"
              >
                {isAiLoading ? (
                  <div className="w-full flex justify-center py-2"><span className="animate-spin text-2xl">⚙️</span></div>
@@ -139,7 +149,10 @@ function AppContent() {
                  <>
                    <span className="text-4xl">🤖</span>
                    <div>
-                     <h3 className="text-lg font-bold text-gray-800">AI 仿製題目</h3>
+                     <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                        AI 仿製題目
+                        {!state.apiKey && <span className="text-[10px] bg-gray-200 text-gray-500 px-2 py-0.5 rounded-full">需設定 Key</span>}
+                     </h3>
                      <p className="text-sm text-gray-500">由 Gemini AI 生成的高品質模擬題。</p>
                    </div>
                  </>

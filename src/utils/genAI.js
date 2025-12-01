@@ -1,15 +1,48 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import pastExamQuestions from "./pastExams.json"; // 引入歷屆試題
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
-
-console.log("Gemini API Key Status:", API_KEY ? `Present (${API_KEY.substring(0, 4)}...)` : "Missing");
-
-export async function generatePersonalizedQuiz(wrongQuestions) {
-  if (!genAI) {
+// 輔助函式：根據傳入的 Key 建立 Model
+function getModel(apiKey) {
+  const keyToUse = apiKey || import.meta.env.VITE_GEMINI_API_KEY;
+  
+  if (!keyToUse) {
     console.error("Gemini API Key is missing.");
-    return [];
+    return null;
   }
+  
+  try {
+    const genAI = new GoogleGenerativeAI(keyToUse);
+    return genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+  } catch (error) {
+    console.error("Error initializing Gemini Model:", error);
+    return null;
+  }
+}
+
+// 輔助函式：從歷屆試題中隨機抽取 N 題作為範例
+function getStyleReferences(count = 3) {
+  const shuffled = [...pastExamQuestions].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count).map(q => ({
+    question: q.question,
+    answer: q.answer,
+    options: q.options
+  }));
+}
+
+export async function generatePersonalizedQuiz(wrongQuestions, apiKey) {
+  const model = getModel(apiKey);
+  if (!model) return [];
+
+  // 1. 取得風格參考範例
+  const styleReferences = getStyleReferences(3);
+  const stylePrompt = `
+    **REFERENCE STYLE (GSAT Standards):**
+    Please analyze the following past exam questions to understand the difficulty (CEFR B2), sentence complexity, and vocabulary level:
+    ${JSON.stringify(styleReferences)}
+    
+    **INSTRUCTION:**
+    Your generated questions MUST mimic the style, length, and difficulty of the references above. Avoid overly simple sentences.
+  `;
 
   const weakPoints = wrongQuestions.map(q => ({
     correctWord: q.answer,
@@ -17,50 +50,71 @@ export async function generatePersonalizedQuiz(wrongQuestions) {
     originalQuestion: q.question
   }));
 
-  const prompt = weakPoints.length > 0 ? `
-    You are an expert English tutor for high school students in Taiwan (preparing for GSAT).
-    The student made mistakes on the following vocabulary words:
-    ${JSON.stringify(weakPoints)}
-    
-    Task:
-    Generate 5 NEW multiple-choice questions (MCQ) to help the student distinguish these confusing words.
-    
-    Requirements:
-    1. Create a NEW sentence context.
-    2. The level should be CEFR B2 (GSAT Level 4-5).
-    3. Output STRICTLY in valid JSON format only. No markdown.
-    
-    JSON Structure:
-    [
-      {
-        "id": "ai_gen_1",
-        "question": "Sentence with ______ blank.",
-        "options": ["word A", "word B", "word C", "word D"], 
-        "answer": "correct_word",
-        "translation": "Traditional Chinese translation of the sentence",
-        "source": "AI Generated"
-      }
-    ]
-  ` : `
-    You are an expert English tutor.
-    Task: Generate 10 high-quality MCQ vocabulary questions for GSAT (Grade 12).
-    Requirements: CEFR B2 level. Academic vocabulary. Valid JSON output only.
-    
-    JSON Structure:
-    [
-      {
-        "id": "ai_gen_random_1",
-        "question": "Sentence with ______ blank.",
-        "options": ["word A", "word B", "word C", "word D"], 
-        "answer": "correct_word",
-        "translation": "Traditional Chinese translation of the sentence",
-        "source": "AI Generated"
-      }
-    ]
-  `;
+  // 2. 根據是否有錯題來決定 Prompt
+  let prompt = "";
+  
+  if (weakPoints.length > 0) {
+    // 針對錯題生成 (弱點強化模式) - 優化版
+    prompt = `
+      You are an expert English tutor for high school students in Taiwan (preparing for GSAT).
+      
+      ${stylePrompt}
+
+      The student made mistakes on the following vocabulary words:
+      ${JSON.stringify(weakPoints)}
+      
+      **Task:**
+      Generate 5 NEW multiple-choice questions (MCQ) to help the student distinguish confusing words.
+      
+      **CRITICAL REQUIREMENTS For Each Question:**
+      1. **Target Word:** The correct answer MUST be the 'correctWord' from the student's mistake list.
+      2. **Distractor:** One of the wrong options MUST be the 'userMistake' (the word they wrongly chose last time). This is crucial for them to learn the difference.
+      3. **Context:** Create a NEW sentence context that clearly fits the 'correctWord' but makes the 'userMistake' incorrect.
+      4. **Level:** Strictly consistent with the REFERENCE STYLE.
+      5. Output STRICTLY in valid JSON format only. No markdown.
+      
+      JSON Structure:
+      [
+        {
+          "id": "ai_gen_1",
+          "question": "Sentence with ______ blank.",
+          "options": ["word A", "word B", "word C", "word D"], 
+          "answer": "correct_word",
+          "translation": "Traditional Chinese translation of the sentence",
+          "source": "AI Generated (Weakness Review)"
+        }
+      ]
+    `;
+  } else {
+    // 全新出題模式 (仿製歷屆試題)
+    prompt = `
+      You are an expert English tutor designing a mock exam for the Taiwan GSAT (General Scholastic Ability Test).
+      
+      ${stylePrompt}
+
+      **Task:** Generate 10 high-quality MCQ vocabulary questions that perfectly simulate the difficulty of the provided references.
+
+      **Requirements:**
+      1. Topics should cover diverse fields (science, culture, daily life, environment) just like the real exam.
+      2. Sentences should be substantial (not too short) to provide enough context clues.
+      3. Vocabulary level: CEFR B2 (Level 4-5 in Taiwan 7000 words list).
+      4. Output STRICTLY in valid JSON format only. No markdown.
+      
+      JSON Structure:
+      [
+        {
+          "id": "ai_gen_random_1",
+          "question": "Sentence with ______ blank.",
+          "options": ["word A", "word B", "word C", "word D"], 
+          "answer": "correct_word",
+          "translation": "Traditional Chinese translation of the sentence",
+          "source": "AI Generated (GSAT Simulation)"
+        }
+      ]
+    `;
+  }
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
@@ -72,8 +126,9 @@ export async function generatePersonalizedQuiz(wrongQuestions) {
   }
 }
 
-export async function analyzeMistakes(mistakes, flaggedItems, eliminatedItems, allQuestions) {
-  if (!genAI) return "無法連線至 AI 進行分析 (API Key 缺失)";
+export async function analyzeMistakes(mistakes, flaggedItems, eliminatedItems, allQuestions, apiKey) {
+  const model = getModel(apiKey);
+  if (!model) return "無法連線至 AI 進行分析 (API Key 缺失或無效)";
 
   // 1. 篩選需要檢討的題目
   const questionsToReview = allQuestions.filter(q => {
@@ -150,7 +205,6 @@ export async function analyzeMistakes(mistakes, flaggedItems, eliminatedItems, a
   `;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(prompt);
     return result.response.text();
   } catch (error) {

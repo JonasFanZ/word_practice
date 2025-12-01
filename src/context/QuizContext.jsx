@@ -17,6 +17,8 @@ const initialState = {
   endTime: null,        
   mode: "normal",    
   isFinished: false,
+  // 新增: 優先從 localStorage 讀取，沒有的話才讀環境變數
+  apiKey: localStorage.getItem("gemini_api_key") || import.meta.env.VITE_GEMINI_API_KEY || "",
 };
 
 function reducer(state, action) {
@@ -53,8 +55,6 @@ function reducer(state, action) {
 
     case "TOGGLE_FLAG": {
       const { questionId, optionText } = action.payload;
-      
-      // 邏輯互斥：如果該選項原本是被刪去的，要先取消刪去
       let newEliminatedList = state.eliminatedList;
       if (state.eliminatedList.some(e => e.questionId === questionId && e.optionText === optionText)) {
         newEliminatedList = state.eliminatedList.filter(e => !(e.questionId === questionId && e.optionText === optionText));
@@ -73,8 +73,6 @@ function reducer(state, action) {
 
     case "TOGGLE_ELIMINATION": {
       const { questionId, optionText } = action.payload;
-
-      // 邏輯互斥：如果該選項原本是被標記疑問的，要先取消疑問
       let newFlaggedList = state.flaggedList;
       if (state.flaggedList.some(f => f.questionId === questionId && f.optionText === optionText)) {
         newFlaggedList = state.flaggedList.filter(f => !(f.questionId === questionId && f.optionText === optionText));
@@ -96,6 +94,18 @@ function reducer(state, action) {
     case "FINISH": return { ...state, isFinished: true, endTime: Date.now() };
     case "RESET_FINISH": return { ...state, isFinished: false, endTime: null };
     case "RESET_ALL": return initialState;
+
+    // 新增: 設定 API Key
+    case "SET_API_KEY": {
+      const newKey = action.payload;
+      if (newKey) {
+        localStorage.setItem("gemini_api_key", newKey);
+      } else {
+        localStorage.removeItem("gemini_api_key");
+      }
+      return { ...state, apiKey: newKey };
+    }
+
     default: return state;
   }
 }

@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useQuiz } from "../context/QuizContext";
 import { fetchSheet, fetchMCQ } from "../utils/fetchSheet";
 import { generatePersonalizedQuiz, analyzeMistakes } from "../utils/genAI";
+import ApiKeyModal from "../components/ApiKeyModal"; // Import Modal
 
 function sampleN(arr, n) {
   const copy = [...arr];
@@ -16,7 +17,8 @@ export default function Result({ onHome, onContinue }) {
   const { state, dispatch } = useQuiz();
   const [aiAnalysis, setAiAnalysis] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [isGeneratingNextRound, setIsGeneratingNextRound] = useState(false); // 新增：下一輪生成中狀態
+  const [isGeneratingNextRound, setIsGeneratingNextRound] = useState(false);
+  const [showKeyModal, setShowKeyModal] = useState(false);
   
   const wrongHistory = useMemo(() => state.wrongList || [], [state.wrongList]);
   const flaggedHistory = useMemo(() => state.flaggedList || [], [state.flaggedList]);
@@ -64,10 +66,16 @@ export default function Result({ onHome, onContinue }) {
 
   useEffect(() => {
     if (state.gameMode === "mcq" && (wrongHistory.length > 0 || flaggedHistory.length > 0) && !aiAnalysis) {
+      if (!state.apiKey) {
+        setAiAnalysis("請先設定 API Key 以啟用 AI 試題分析功能。");
+        return;
+      }
+
       const runAnalysis = async () => {
         setIsAnalyzing(true);
         try {
-            const report = await analyzeMistakes(wrongHistory, flaggedHistory, eliminatedHistory, allQuestions);
+            // 傳入 state.apiKey
+            const report = await analyzeMistakes(wrongHistory, flaggedHistory, eliminatedHistory, allQuestions, state.apiKey);
             setAiAnalysis(report);
         } catch (err) {
             console.error("Analysis Error:", err);
@@ -78,17 +86,24 @@ export default function Result({ onHome, onContinue }) {
       };
       runAnalysis();
     }
-  }, [state.gameMode, wrongHistory, flaggedHistory, eliminatedHistory, allQuestions, aiAnalysis]);
+  }, [state.gameMode, wrongHistory, flaggedHistory, eliminatedHistory, allQuestions, aiAnalysis, state.apiKey]);
 
   async function handleContinue() {
-    setIsGeneratingNextRound(true); // 開始 loading
+    setIsGeneratingNextRound(true); 
     let allData = [];
     
     try {
         if (state.gameMode === "mcq") {
+          // 如果要使用 AI 出題，檢查 Key
           if (state.mcqSource === 'ai' && wrongHistory.length > 0) {
-             // 1. AI 針對弱點出題
-             let newAiQuestions = await generatePersonalizedQuiz(wrongHistory);
+             if (!state.apiKey) {
+                 setShowKeyModal(true);
+                 setIsGeneratingNextRound(false);
+                 return;
+             }
+
+             // 1. AI 針對弱點出題 (傳入 apiKey)
+             let newAiQuestions = await generatePersonalizedQuiz(wrongHistory, state.apiKey);
              
              // 2. 如果 AI 題目不足 10 題，用歷屆試題補足
              if (!newAiQuestions) newAiQuestions = [];
@@ -98,7 +113,6 @@ export default function Result({ onHome, onContinue }) {
                  const needed = 10 - newAiQuestions.length;
                  const randomExtras = sampleN(pastQuestions, needed);
                  
-                 // 確保不重複 ID (簡單防呆)
                  const existingIds = new Set(newAiQuestions.map(q => q.id));
                  const uniqueExtras = randomExtras.filter(q => !existingIds.has(q.id));
                  
@@ -107,14 +121,12 @@ export default function Result({ onHome, onContinue }) {
                  allData = newAiQuestions.slice(0, 10);
              }
           } else {
-             // 歷屆試題模式，重新隨機抽 10 題
              const freshData = await fetchMCQ('past');
              allData = sampleN(freshData, 10);
           }
         } else {
-          // 拼字模式
           allData = await fetchSheet(state.level ?? 1);
-          allData = sampleN(allData, 10); // 確保拼字也是 10 題
+          allData = sampleN(allData, 10); 
         }
         
         if (!allData || allData.length === 0) {
@@ -122,10 +134,9 @@ export default function Result({ onHome, onContinue }) {
             return;
         }
 
-        // 這裡不需要再 sampleN，因為上面邏輯已經確保是 10 題了 (或是接近 10 題)
         const round = allData;
         
-        dispatch({ type: "SET_QUESTIONS", payload: allData }); // 這行其實在 MCQ 模式下意義不大，因為 roundSet 才是重點，但保持一致性
+        dispatch({ type: "SET_QUESTIONS", payload: allData });
         dispatch({ type: "SET_ROUNDSET", payload: round });
         dispatch({ type: "SET_MODE", payload: "normal" });
         dispatch({ type: "CLEAR_WRONGS" });
@@ -136,7 +147,7 @@ export default function Result({ onHome, onContinue }) {
         console.error("Error generating next round:", e);
         alert("生成題目時發生錯誤，請重試");
     } finally {
-        setIsGeneratingNextRound(false); // 結束 loading
+        setIsGeneratingNextRound(false); 
     }
   }
 
@@ -153,6 +164,8 @@ export default function Result({ onHome, onContinue }) {
   return (
     <div className="w-full max-w-[600px] bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6 max-h-[90vh] overflow-y-auto">
       
+      <ApiKeyModal open={showKeyModal} onClose={() => setShowKeyModal(false)} />
+
       <div className="text-center space-y-4">
         <h2 className="text-3xl font-bold text-gray-800">測驗完成！</h2>
         
@@ -180,9 +193,19 @@ export default function Result({ onHome, onContinue }) {
 
       {state.gameMode === "mcq" && (wrongHistory.length > 0 || flaggedHistory.length > 0) && (
         <div className="bg-indigo-50 rounded-xl p-6 border border-indigo-100 shadow-inner">
-          <h3 className="text-lg font-bold text-indigo-800 mb-4 flex items-center gap-2">
-            <span>🤖</span> 
-            {isAnalyzing ? "AI 老師正在批改試卷..." : "試題深度解析"}
+          <h3 className="text-lg font-bold text-indigo-800 mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+                <span>🤖</span> 
+                {isAnalyzing ? "AI 老師正在批改試卷..." : "試題深度解析"}
+            </div>
+            {!state.apiKey && (
+                <button 
+                  onClick={() => setShowKeyModal(true)}
+                  className="text-xs bg-white border border-indigo-200 text-indigo-600 px-3 py-1 rounded-full hover:bg-indigo-100 transition"
+                >
+                    設定 API Key 以啟用分析
+                </button>
+            )}
           </h3>
           
           {isAnalyzing ? (
