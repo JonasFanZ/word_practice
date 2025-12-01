@@ -54,7 +54,7 @@ export async function generatePersonalizedQuiz(wrongQuestions, apiKey) {
   let prompt = "";
   
   if (weakPoints.length > 0) {
-    // 針對錯題生成 (弱點強化模式) - 優化版
+    // 針對錯題生成 (弱點強化模式)
     prompt = `
       You are an expert English tutor for high school students in Taiwan (preparing for GSAT).
       
@@ -70,8 +70,9 @@ export async function generatePersonalizedQuiz(wrongQuestions, apiKey) {
       1. **Target Word:** The correct answer MUST be the 'correctWord' from the student's mistake list.
       2. **Distractor:** One of the wrong options MUST be the 'userMistake' (the word they wrongly chose last time). This is crucial for them to learn the difference.
       3. **Context:** Create a NEW sentence context that clearly fits the 'correctWord' but makes the 'userMistake' incorrect.
-      4. **Level:** Strictly consistent with the REFERENCE STYLE.
-      5. Output STRICTLY in valid JSON format only. No markdown.
+      4. **Translation:** The Chinese translation MUST be a COMPLETE sentence with the answer's meaning filled in. **DO NOT use underscores (____) or blanks in the translation.**
+      5. **Level:** Strictly consistent with the REFERENCE STYLE.
+      6. Output STRICTLY in valid JSON format only. No markdown.
       
       JSON Structure:
       [
@@ -80,7 +81,7 @@ export async function generatePersonalizedQuiz(wrongQuestions, apiKey) {
           "question": "Sentence with ______ blank.",
           "options": ["word A", "word B", "word C", "word D"], 
           "answer": "correct_word",
-          "translation": "Traditional Chinese translation of the sentence",
+          "translation": "完整的中文翻譯句子（包含正確答案的意思，不要有底線）",
           "source": "AI Generated (Weakness Review)"
         }
       ]
@@ -98,7 +99,8 @@ export async function generatePersonalizedQuiz(wrongQuestions, apiKey) {
       1. Topics should cover diverse fields (science, culture, daily life, environment) just like the real exam.
       2. Sentences should be substantial (not too short) to provide enough context clues.
       3. Vocabulary level: CEFR B2 (Level 4-5 in Taiwan 7000 words list).
-      4. Output STRICTLY in valid JSON format only. No markdown.
+      4. **Translation:** The Chinese translation MUST be a COMPLETE sentence with the answer's meaning filled in. **DO NOT use underscores (____) or blanks in the translation.**
+      5. Output STRICTLY in valid JSON format only. No markdown.
       
       JSON Structure:
       [
@@ -107,7 +109,7 @@ export async function generatePersonalizedQuiz(wrongQuestions, apiKey) {
           "question": "Sentence with ______ blank.",
           "options": ["word A", "word B", "word C", "word D"], 
           "answer": "correct_word",
-          "translation": "Traditional Chinese translation of the sentence",
+          "translation": "完整的中文翻譯句子（包含正確答案的意思，不要有底線）",
           "source": "AI Generated (GSAT Simulation)"
         }
       ]

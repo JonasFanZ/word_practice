@@ -211,7 +211,7 @@ export default function Result({ onHome, onContinue }) {
           {isAnalyzing ? (
             <div className="flex flex-col items-center justify-center py-8 space-y-3 text-indigo-400">
               <span className="animate-spin text-3xl">⚙️</span>
-              <p className="text-sm animate-pulse">正在分析你的標記與刪去邏輯...</p>
+              <p className="text-sm animate-pulse">正在分析你的作答情況...</p>
             </div>
           ) : (
             <div className="prose prose-sm prose-indigo max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed font-medium font-sans">

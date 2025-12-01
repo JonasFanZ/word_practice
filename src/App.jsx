@@ -144,7 +144,10 @@ function AppContent() {
                className="p-6 bg-white rounded-2xl shadow-sm border border-gray-200 hover:border-purple-400 hover:shadow-md transition-all text-left flex items-center gap-4 disabled:opacity-50 group"
              >
                {isAiLoading ? (
-                 <div className="w-full flex justify-center py-2"><span className="animate-spin text-2xl">⚙️</span></div>
+                 <div className="w-full flex items-center justify-center gap-3 py-2">
+                   <span className="animate-spin text-2xl">⚙️</span>
+                   <span className="text-gray-500 font-bold animate-pulse">題目生成中...</span>
+                 </div>
                ) : (
                  <>
                    <span className="text-4xl">🤖</span>
